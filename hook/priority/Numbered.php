@@ -1,7 +1,7 @@
 <?php
-namespace DragonU\Hook;
+namespace DragonU\Hook\Priority;
 /**
- * Plugin Hook System.
+ * Numbered priority.
  *
  * @internal
  *
@@ -50,26 +50,18 @@ namespace DragonU\Hook;
  *
  * @link http://en.wikipedia.org/wiki/Hook_(programming)
  * @link http://en.wikipedia.org/wiki/Observer_pattern
- *
- * @since 0.1
  */
-interface Hook
+class Numbered implements \DragonU\Hook\Priority
 {
-	public function attach($callable);
+	protected $value = 0;
 
-	public function detach($callable);
+	public function __construct($num = 10)
+	{
+		$this->value = (int) $num;
+	}
 
-	public function execute($name);
-
-	public function with_priority(Priority $priority);
-
-	public function limit_parameters($num);
-
-	public function name($name);
-
-	public function exists($name, $callable);
-
-	public function currently_running();
-
-	static protected function get_callable_id($callable);
+	public function value()
+	{
+		return $this->value;
+	}
 }

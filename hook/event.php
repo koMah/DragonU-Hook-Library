@@ -1,7 +1,7 @@
 <?php
 namespace DragonU\Hook;
 /**
- * Plugin Hook System.
+ * Event class.
  *
  * @internal
  *
@@ -50,26 +50,84 @@ namespace DragonU\Hook;
  *
  * @link http://en.wikipedia.org/wiki/Hook_(programming)
  * @link http://en.wikipedia.org/wiki/Observer_pattern
- *
- * @since 0.1
  */
-interface Hook
+class Event implements Hook, Helpers
 {
-	public function attach($callable);
+	static protected $hook_list = array();
 
-	public function detach($callable);
+	static protected $current_hook = '';
 
-	public function execute($name);
+	public function add($name, $callable, $priority = 10)
+	{
+		try
+		{
+			$id = self::get_callable_id($callable);
+			static::$hook_list[$name][$priority][$id] = $callable;
+			return true;
+		}
+		catch( NotCallableException $e )
+		{
+			throw $e;
+		}
+	}
 
-	public function with_priority(Priority $priority);
+	public function remove($name, $callable, $priority = 10)
+	{
+		if( isset(static::$hook_list[$name]) && isset(static::$hook_list[$name][$priority]) )
+		{
+			try
+			{
+				$id = self::get_callable_id($callable);
+				if( isset(static::$hook_list[$name][$priority][$id]) )
+				{
+					unset( static::$hook_list[$name][$priority][$id] );
+				}
+				return true;
+			}
+			catch( NotCallableException $e )
+			{
+				throw $e;
+			}
+		}
 
-	public function limit_parameters($num);
+		return false;
+	}
 
-	public function name($name);
+	public function execute($name)
+	{
 
-	public function exists($name, $callable);
+	}
 
-	public function currently_running();
+	static protected function get_callable_id($callable)
+	{
+		// Since we call is_callable() too often, we'll do the check once. We also have to ensure
+		// that the Hookable instances aren't passed over for being strict objects.
+		if( ! is_callable($callable) && ! ( $callable instanceof Hookable ) ) // Might have bug.
+		{
+			throw new NotCallableException;
+		}
 
-	static protected function get_callable_id($callable);
+		// This might be PHP5.3 closure or a regular class.
+		if( is_object($callable) )
+		{
+			return spl_object_hash($callable);
+		}
+
+		if( is_string($callable) )
+		{
+			return $callable;
+		}
+
+		if( is_array($callable) )
+		{
+			if( is_string($callable[0]) )
+			{
+				return implode('::', $callable);
+			}
+
+			return spl_object_hash($callable[0]) . $callable[1];
+		}
+
+		throw new NotCallableException;
+	}
 }
