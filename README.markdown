@@ -18,59 +18,59 @@ that doesn't need to return values. The first is generally called a filter, if u
 and the second is more of an event or an action in WordPress terms.
 
 # Examples #
-
+	
 ## Calling a Hook ##
-
-\DragonU\Hook\Filter('name')->execute($value);
-\DragonU\Hook\Filter('name')->execute($value, $extra1, $extra2);
-
-\DragonU\Hook\Event('name')->execute();
-\DragonU\Hook\Event('name')->execute($value1, $value2);
+	
+	\DragonU\Hook\Filter('name')->execute($value);
+	\DragonU\Hook\Filter('name')->execute($value, $extra1, $extra2);
+	
+	\DragonU\Hook\Event('name')->execute();
+	\DragonU\Hook\Event('name')->execute($value1, $value2);
 
 ## Adding to a Hook ##
 
-\DragonU\Hook\Filter('name')->add(new \DragonU\Hook\FilterHook());
-\DragonU\Hook\Filter('name')->add('function_name');
-\DragonU\Hook\Filter('name')->add(array('class_name', 'method_name')); // Static
-\DragonU\Hook\Filter('name')->add(array($object, 'method_name')); // Dynamic
+	\DragonU\Hook\Filter('name')->add(new \DragonU\Hook\FilterHook());
+	\DragonU\Hook\Filter('name')->add('function_name');
+	\DragonU\Hook\Filter('name')->add(array('class_name', 'method_name')); // Static
+	\DragonU\Hook\Filter('name')->add(array($object, 'method_name')); // Dynamic
 
-$closure = function($value) {
-	return $value;
-}
-\DragonU\Hook\Filter('name')->add($closure);
-
-\DragonU\Hook\Event('name')->add(new \DragonU\Hook\EventHook());
-\DragonU\Hook\Event('name')->add('function_name');
-\DragonU\Hook\Event('name')->add(array('class_name', 'method_name')); // Static
-\DragonU\Hook\Event('name')->add(array($object, 'method_name')); // Dynamic
-
-$closure = function($value) {
-	return $value;
-}
-\DragonU\Hook\Event('name')->add($closure);
+	$closure = function($value) {
+		return $value;
+	}
+	\DragonU\Hook\Filter('name')->add($closure);
+	
+	\DragonU\Hook\Event('name')->add(new \DragonU\Hook\EventHook());
+	\DragonU\Hook\Event('name')->add('function_name');
+	\DragonU\Hook\Event('name')->add(array('class_name', 'method_name')); // Static
+	\DragonU\Hook\Event('name')->add(array($object, 'method_name')); // Dynamic
+	
+	$closure = function($value) {
+		return $value;
+	}
+	\DragonU\Hook\Event('name')->add($closure);
 
 ## Removing a Hook ##
 
-\DragonU\Hook\Filter('name')->remove(new \DragonU\Hook\FilterHook());
-\DragonU\Hook\Filter('name')->remove('function_name');
-\DragonU\Hook\Filter('name')->remove(array('class_name', 'method_name')); // Static
-\DragonU\Hook\Filter('name')->remove(array($object, 'method_name')); // Dynamic
-
-$closure = function($value) {
-	return $value;
-}
-\DragonU\Hook\Filter('name')->remove($closure);
-
-\DragonU\Hook\Event('name')->remove(new \DragonU\Hook\EventHook());
-\DragonU\Hook\Event('name')->remove('function_name');
-\DragonU\Hook\Event('name')->remove(array('class_name', 'method_name')); // Static
-\DragonU\Hook\Event('name')->remove(array($object, 'method_name')); // Dynamic
-
-$closure = function($value) {
-	return $value;
-}
-\DragonU\Hook\Event('name')->remove($closure);
+	\DragonU\Hook\Filter('name')->remove(new \DragonU\Hook\FilterHook());
+	\DragonU\Hook\Filter('name')->remove('function_name');
+	\DragonU\Hook\Filter('name')->remove(array('class_name', 'method_name')); // Static
+	\DragonU\Hook\Filter('name')->remove(array($object, 'method_name')); // Dynamic
+	
+	$closure = function($value) {
+		return $value;
+	}
+	\DragonU\Hook\Filter('name')->remove($closure);
+	
+	\DragonU\Hook\Event('name')->remove(new \DragonU\Hook\EventHook());
+	\DragonU\Hook\Event('name')->remove('function_name');
+	\DragonU\Hook\Event('name')->remove(array('class_name', 'method_name')); // Static
+	\DragonU\Hook\Event('name')->remove(array($object, 'method_name')); // Dynamic
+	
+	$closure = function($value) {
+		return $value;
+	}
+	\DragonU\Hook\Event('name')->remove($closure);
 
 ## Checking Current Hook that is Running ##
 
-$current = \DragonU\Hook\current();
+	$current = \DragonU\Hook\current();
